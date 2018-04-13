@@ -20,7 +20,7 @@ resource "aws_db_parameter_group" "mysqldb-parameters" {
 resource "aws_db_instance" "mysqldb" {
   allocated_storage    = 10    
   engine               = "mysql"
-  engine_version       = "10.1.14"
+  engine_version       = "5.6.39"
   instance_class       = "db.t2.small"    
   identifier           = "mysql"
   name                 = "wordpressdb" # database name
