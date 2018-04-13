@@ -46,7 +46,8 @@ resource "aws_iam_role_policy" "codepipeline_policy" {
       "Action": [
         "codecommit:*",
         "elasticbeanstalk:*",
-        "s3:*"
+        "s3:*",
+        "cloudformation:*"
       ],
       "Resource": "*"
     }
