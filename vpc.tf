@@ -56,7 +56,7 @@ resource "aws_subnet" "wp-private-2" {
     vpc_id = "${aws_vpc.wordpress-vpc.id}"
     cidr_block = "10.0.5.0/24"
     map_public_ip_on_launch = "false"
-    availability_zone = "eu-west-1b"
+    availability_zone = "us-west-2b"
 
     tags {
         Name = "wp-private-2"
@@ -66,7 +66,7 @@ resource "aws_subnet" "wp-private-3" {
     vpc_id = "${aws_vpc.wordpress-vpc.id}"
     cidr_block = "10.0.6.0/24"
     map_public_ip_on_launch = "false"
-    availability_zone = "eu-west-1c"
+    availability_zone = "us-west-2c"
 
     tags {
         Name = "wp-private-3"
