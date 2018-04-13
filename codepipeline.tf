@@ -44,7 +44,8 @@ resource "aws_iam_role_policy" "codepipeline_policy" {
     {
       "Effect": "Allow",
       "Action": [
-        "*",
+        "codecommit:*",
+        "elasticbeanstalk:*"
       ],
       "Resource": "*"
     }
