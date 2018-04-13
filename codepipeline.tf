@@ -34,8 +34,11 @@ resource "aws_iam_role_policy" "codepipeline_policy" {
       "Action": [
         "codecommit:*",
         "elasticbeanstalk:*"
-        "s3:*"
-        "codepipeline:*"
+        "s3:GetObject"
+        "s3:GetObjectVersion"
+        "s3:GetBucketVersioning"
+        "s3:DeleteObject"
+        "s3:PutObject"
       ],
       "Resource": "*"
     }
