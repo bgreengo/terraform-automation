@@ -30,20 +30,11 @@ resource "aws_iam_role_policy" "codepipeline_policy" {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Effect":"Allow",
-      "Action": [
-        "s3:*",
-      ],
-      "Resource": [
-        "${aws_s3_bucket.wordpress.arn}",
-        "${aws_s3_bucket.wordpress.arn}/*"
-      ]
-    },
-    {
       "Effect": "Allow",
       "Action": [
         "codecommit:*",
         "elasticbeanstalk:*"
+        "s3:*"
       ],
       "Resource": "*"
     }
