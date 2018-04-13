@@ -90,23 +90,23 @@ resource "aws_elastic_beanstalk_environment" "wordpress-prod" {
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
     name = "RDS_USERNAME"
-    value = "${aws_db_instance.mysql.username}"
+    value = "${aws_db_instance.mysqldb.username}"
   }
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
     name = "RDS_PASSWORD"
-    value = "${aws_db_instance.mysql.password}"
+    value = "${aws_db_instance.mysqldb.password}"
   }
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
     name = "RDS_DATABASE"
     value = "mydb"
-    value = "${aws_db_instance.mysql.name}"
+    value = "${aws_db_instance.mysqldb.name}"
   }
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
     name = "RDS_HOSTNAME"
-    value = "${aws_db_instance.mysql.endpoint}"
+    value = "${aws_db_instance.mysqldb.endpoint}"
   }
 }
 

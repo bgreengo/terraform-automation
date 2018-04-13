@@ -54,10 +54,6 @@ resource "aws_iam_role_policy" "codepipeline_policy" {
 EOF
 }
 
-data "aws_kms_alias" "s3kmskey" {
-  name = "alias/myKmsKey"
-}
-
 resource "aws_codepipeline" "wordpress" {
   name     = "wordpress-pipeline"
   role_arn = "${aws_iam_role.wordpress.arn}"
@@ -65,10 +61,6 @@ resource "aws_codepipeline" "wordpress" {
   artifact_store {
     location = "${aws_s3_bucket.wordpress.bucket}"
     type     = "S3"
-    encryption_key {
-      id   = "${data.aws_kms_alias.s3kmskey.arn}"
-      type = "KMS"
-    }
   }
 
   stage {
@@ -78,7 +70,7 @@ resource "aws_codepipeline" "wordpress" {
       name             = "Source"
       category         = "Source"
       owner            = "AWS"
-      provider         = "AWS CodeCommit"
+      provider         = "CodeCommit"
       version          = "1"
       output_artifacts = ["test"]
 
@@ -91,18 +83,18 @@ resource "aws_codepipeline" "wordpress" {
   }
 
   stage {
-    name = "Build"
+    name = "Deploy"
 
     action {
-      name            = "Build"
-      category        = "Build"
+      name            = "Deploy"
+      category        = "Deploy"
       owner           = "AWS"
-      provider        = "CodeBuild"
-      input_artifacts = ["test"]
+      provider        = "ElasticBeanstalk"
       version         = "1"
 
       configuration {
-        ProjectName = "test"
+        ApplicationName = "wordpress"
+        EnvironmentName = "wordpress-prod"
       }
     }
   }
