@@ -75,9 +75,8 @@ resource "aws_codepipeline" "wordpress-pipeline" {
       output_artifacts = ["test"]
 
       configuration {
-        Owner      = "AWS"
-        Repo       = "wordpress"
-        Branch     = "master"
+        RepositoryName      = "wordpress"
+        BranchName     = "master"
       }
     }
   }
