@@ -89,6 +89,7 @@ resource "aws_codepipeline" "wordpress-pipeline" {
       category        = "Deploy"
       owner           = "AWS"
       provider        = "ElasticBeanstalk"
+      input_artifacts = ["test"]
       version         = "1"
 
       configuration {
