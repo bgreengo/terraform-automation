@@ -48,7 +48,9 @@ resource "aws_iam_role_policy" "codepipeline_policy" {
         "elasticbeanstalk:*",
         "s3:*",
         "cloudformation:*",
-        "ec2:*"
+        "ec2:*",
+        "autoscaling:*",
+        "elasticloadbalancing:*"
       ],
       "Resource": "*"
     }
