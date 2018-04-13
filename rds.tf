@@ -1,13 +1,13 @@
-resource "aws_db_subnet_group" "mariadb-subnet" {
-    name = "mariadb-subnet"
+resource "aws_db_subnet_group" "mysqldb-subnet" {
+    name = "mysqldb-subnet"
     description = "RDS subnet group"
-    subnet_ids = ["${aws_subnet.main-private-1.id}","${aws_subnet.main-private-2.id}"]
+    subnet_ids = ["${aws_subnet.wp-private-1.id}","${aws_subnet.wp-private-2.id}"]
 }
 
-resource "aws_db_parameter_group" "mariadb-parameters" {
-    name = "mariadb-params"
-    family = "mariadb10.1"
-    description = "MariaDB parameter group"
+resource "aws_db_parameter_group" "mysqldb-parameters" {
+    name = "mysqldb-params"
+    family = "mysql5.6"
+    description = "MySQLDB parameter group"
 
     parameter {
       name = "max_allowed_packet"
@@ -17,23 +17,23 @@ resource "aws_db_parameter_group" "mariadb-parameters" {
 }
 
 
-resource "aws_db_instance" "mariadb" {
-  allocated_storage    = 100    # 100 GB of storage, gives us more IOPS than a lower number
-  engine               = "mariadb"
+resource "aws_db_instance" "mysqldb" {
+  allocated_storage    = 10    
+  engine               = "mysql"
   engine_version       = "10.1.14"
-  instance_class       = "db.t2.small"    # use micro if you want to use the free tier
-  identifier           = "mariadb"
-  name                 = "mydatabase" # database name
+  instance_class       = "db.t2.small"    
+  identifier           = "mysql"
+  name                 = "wordpressdb" # database name
   username             = "root"   # username
-  password             = "${var.RDS_PASSWORD}" # password
-  db_subnet_group_name = "${aws_db_subnet_group.mariadb-subnet.name}"
-  parameter_group_name = "${aws_db_parameter_group.mariadb-parameters.name}"
+  password             = "${var.RDS_PASSWORD}" 
+  db_subnet_group_name = "${aws_db_subnet_group.mysqldb-subnet.name}"
+  parameter_group_name = "${aws_db_parameter_group.mysqldb-parameters.name}"
   multi_az             = "false"     # set to true to have high availability: 2 instances synchronized with each other
-  vpc_security_group_ids = ["${aws_security_group.allow-mariadb.id}"]
+  vpc_security_group_ids = ["${aws_security_group.allow-mysqldb.id}"]
   storage_type         = "gp2"
   backup_retention_period = 30    # how long you’re going to keep your backups
-  availability_zone = "${aws_subnet.main-private-1.availability_zone}"   # prefered AZ
+  availability_zone = "${aws_subnet.wp-private-1.availability_zone}"   # prefered AZ
   tags {
-      Name = "mariadb-instance"
+      Name = "mysqldb-instance"
   }
 }

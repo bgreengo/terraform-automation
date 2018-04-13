@@ -1,21 +1,21 @@
-resource "aws_elastic_beanstalk_application" "app" {
-  name = "app"
-  description = "app"
+resource "aws_elastic_beanstalk_application" "wordpress" {
+  name = "wordpress"
+  description = "wordpress website"
 }
 
-resource "aws_elastic_beanstalk_environment" "app-prod" {
-  name = "app-prod"
-  application = "${aws_elastic_beanstalk_application.app.name}"
-  solution_stack_name = "64bit Amazon Linux 2016.09 v2.3.0 running PHP 7.0"
+resource "aws_elastic_beanstalk_environment" "wordpress-prod" {
+  name = "wordpress-prod"
+  application = "${aws_elastic_beanstalk_application.wordpress.name}"
+  solution_stack_name = "64bit Amazon Linux 2017.09 v2.6.6 running PHP 7.1"
   setting {
     namespace = "aws:ec2:vpc"
     name      = "VPCId"
-    value     = "${aws_vpc.main.id}"
+    value     = "${aws_vpc.wordpress-vpc.id}"
   }
   setting {
     namespace = "aws:ec2:vpc"
     name = "Subnets"
-    value = "${aws_subnet.main-private-1.id},${aws_subnet.main-private-2.id}"
+    value = "${aws_subnet.wp-private-1.id},${aws_subnet.wp-private-2.id}"
   }
   setting {
     namespace = "aws:ec2:vpc"
@@ -25,17 +25,17 @@ resource "aws_elastic_beanstalk_environment" "app-prod" {
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name = "IamInstanceProfile"
-    value = "${aws_iam_instance_profile.app-ec2-role.name}"
+    value = "${aws_iam_instance_profile.wordpress-ec2-role.name}"
   }
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name = "SecurityGroups"
-    value = "${aws_security_group.app-prod.id}"
+    value = "${aws_security_group.wordpress-prod.id}"
   }
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name = "EC2KeyName"
-    value = "${aws_key_pair.mykeypair.id}"
+    value = "${aws_key_pair.wordpress.id}"
   }
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
@@ -55,7 +55,7 @@ resource "aws_elastic_beanstalk_environment" "app-prod" {
   setting {
     namespace = "aws:ec2:vpc"
     name = "ELBSubnets"
-    value = "${aws_subnet.main-public-1.id},${aws_subnet.main-public-2.id}"
+    value = "${aws_subnet.wp-public-1.id},${aws_subnet.wp-public-2.id}"
   }
   setting {
     namespace = "aws:elb:loadbalancer"
@@ -90,23 +90,23 @@ resource "aws_elastic_beanstalk_environment" "app-prod" {
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
     name = "RDS_USERNAME"
-    value = "${aws_db_instance.mariadb.username}"
+    value = "${aws_db_instance.mysql.username}"
   }
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
     name = "RDS_PASSWORD"
-    value = "${aws_db_instance.mariadb.password}"
+    value = "${aws_db_instance.mysql.password}"
   }
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
     name = "RDS_DATABASE"
     value = "mydb"
-    value = "${aws_db_instance.mariadb.name}"
+    value = "${aws_db_instance.mysql.name}"
   }
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
     name = "RDS_HOSTNAME"
-    value = "${aws_db_instance.mariadb.endpoint}"
+    value = "${aws_db_instance.mysql.endpoint}"
   }
 }
 

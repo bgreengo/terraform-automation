@@ -1,7 +1,7 @@
-resource "aws_security_group" "app-prod" {
-  vpc_id = "${aws_vpc.main.id}"
-  name = "application - production"
-  description = "security group for my app"
+resource "aws_security_group" "wordpress-prod" {
+  vpc_id = "${aws_vpc.wordpress-vpc.id}"
+  name = "wordpress - production"
+  description = "security group for wordpress"
   egress {
       from_port = 0
       to_port = 0
@@ -18,18 +18,18 @@ resource "aws_security_group" "app-prod" {
 
 
   tags {
-    Name = "myinstance"
+    Name = "wordpress"
   }
 }
-resource "aws_security_group" "allow-mariadb" {
-  vpc_id = "${aws_vpc.main.id}"
-  name = "allow-mariadb"
-  description = "allow-mariadb"
+resource "aws_security_group" "allow-mysqldb" {
+  vpc_id = "${aws_vpc.wordpress-vpc.id}"
+  name = "allow-mysqldb"
+  description = "allow-mysqldb"
   ingress {
       from_port = 3306
       to_port = 3306
       protocol = "tcp"
-      security_groups = ["${aws_security_group.app-prod.id}"]              # allowing access from our example instance
+      security_groups = ["${aws_security_group.wordpress-prod.id}"]           
   }
   egress {
       from_port = 0
@@ -39,6 +39,6 @@ resource "aws_security_group" "allow-mariadb" {
       self = true
   }
   tags {
-    Name = "allow-mariadb"
+    Name = "allow-mysqldb"
   }
 }
