@@ -54,9 +54,9 @@ resource "aws_iam_role_policy" "codepipeline_policy" {
 EOF
 }
 
-resource "aws_codepipeline" "wordpress" {
+resource "aws_codepipeline" "wordpress-pipeline" {
   name     = "wordpress-pipeline"
-  role_arn = "${aws_iam_role.wordpress.arn}"
+  role_arn = "${aws_iam_role.wordpress-pipeline.arn}"
 
   artifact_store {
     location = "${aws_s3_bucket.wordpress.bucket}"
