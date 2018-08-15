@@ -1,11 +1,11 @@
 resource "aws_db_subnet_group" "mysqldb-subnet" {
-    name = "mysqldb-subnet"
+    name = "mysqldb-subnet-wp"
     description = "RDS subnet group"
     subnet_ids = ["${aws_subnet.wp-private-1.id}","${aws_subnet.wp-private-2.id}"]
 }
 
 resource "aws_db_parameter_group" "mysqldb-parameters" {
-    name = "mysqldb-params"
+    name = "mysqldb-params-wp"
     family = "mysql5.6"
     description = "MySQLDB parameter group"
 
@@ -32,6 +32,7 @@ resource "aws_db_instance" "mysqldb" {
   vpc_security_group_ids = ["${aws_security_group.allow-mysqldb.id}"]
   storage_type         = "gp2"
   backup_retention_period = 30    # how long you’re going to keep your backups
+  skip_final_snapshot = true
   availability_zone = "${aws_subnet.wp-private-1.availability_zone}"   # prefered AZ
   tags {
       Name = "mysqldb-instance"

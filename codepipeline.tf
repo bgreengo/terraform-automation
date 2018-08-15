@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "wordpress" {
-  bucket = "terraform-automation-wordpress-bucket"
+  bucket = "terraform-automation-wordpress-bucket-bgreen"
   acl    = "private"
 }
 
