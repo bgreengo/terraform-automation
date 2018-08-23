@@ -8,3 +8,5 @@ variable "PATH_TO_PUBLIC_KEY" {
   default = "wordpress.pub"
 }
 variable "RDS_PASSWORD" {}
+
+variable "S3_BUCKET" {}
